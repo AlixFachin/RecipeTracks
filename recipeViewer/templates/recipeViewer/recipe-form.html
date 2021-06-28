@@ -1,0 +1,180 @@
+{% extends 'recipeViewer/base.html' %}
+
+{% block javascript %}
+
+<script>
+    $(function (){
+
+        /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
+        $("#id_image_file").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#image").attr("src", e.target.result);
+                    $("#modalCrop").modal("show");
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+
+
+        });
+
+        /* SCRIPT TO HANDLE THE CROPPER BOX */
+        var $image = $("#image");
+        var cropBoxData;
+        var canvasData;
+        $("#modalCrop").on("shown.bs.modal", function () {
+            $image.cropper({
+                viewMode: 1,
+                aspectRatio: 1/1,
+                minCropBoxWidth: 200,
+                minCropBoxHeight: 200,
+                ready: function() {
+                    $image.cropper("setCanvasData", canvasData);
+                    $image.cropper("serCropBoxData", cropBoxData);
+                }
+            });
+        }).on("hidden.bs.modal", function () {
+            cropBoxData = $image.cropper("getCropBoxData");
+            canvasData = $image.cropper("getCanvasData");
+            $image.cropper("destroy");
+        });
+
+        $(".js-zoom-in").click(function() {
+            $image.cropper("zoom", 0.1);
+        })
+
+        $(".js-zoom-out").click(function() {
+            $image.cropper("zoom", -0.1);
+        })
+
+        /* SCRIPT TO COLLECT THE DATA AND POST TO THE SERVER */
+        $(".js-crop-and-upload").click(function () {
+            var cropData = $image.cropper("getData");
+            console.log(cropData["x"]);
+            console.log(cropData["y"]);
+            console.log(cropData["height"]);
+            console.log(cropData["width"]);
+            
+            document.getElementById("id_x").value = cropData["x"];
+            document.getElementById("id_y").value = cropData["y"];
+            document.getElementById("id_height").value = cropData["height"];
+            document.getElementById("id_width").value = cropData["width"];
+
+            $("#modalCrop").modal("hide");
+        });
+
+    });
+</script>
+
+{% endblock %}
+
+{% block body %}
+
+{% load i18n %}
+
+<form method = "POST" enctype="multipart/form-data" id="formEditRecipe">
+    {%  csrf_token  %}
+    
+    {% if form.non_field_errors %}
+        <ul>
+            {% for error in form.non_field_errors %}
+                <li> {{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% for hidden_field in form.hidden_fields %}
+        {% if hidden_field.errors %}
+            <ul>
+                {% for error in hidden_field.errors %}
+                    <li> {{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {{hidden_field}}
+    {% endfor %}
+    
+    <div class="row">
+        <div class="col-10 offset-1 border border-light rounded shadow py-4 px-3">
+            {% for field in form.visible_fields  %}
+                <div class="form-group row">
+                    
+                    <label for="{{ field.id_for_label }}" class="col-sm-2 col-for-label"> {{ field.label }} </label>
+                    
+                    <div class="col-sm-9 mx-3"> {{ field }} 
+                        {% if field.label == 'Ingredients' %}
+                            <small class="form-text text-muted"> {% trans "Separate ingredients with ; or new-line. They will be rendered properly." %}</small>
+                        {% elif field.label == 'Task list' %}
+                            <small class="form-text text-muted">{% trans "Separate task entries with ; to allow for special rendering." %}</small>
+                        {% endif %}
+
+                        {% if field.errors %}
+                            <ul>
+                            {% for error in field.errors %}
+                                <li> <small class="form-text">{{ error }} </small></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                    </div>
+                </div>
+            
+            {%  endfor %}
+            <div class="row justify-content-center">
+                <div class="col-3 text-center">
+                    {% if recipe.id %}
+                        <a href="{% url 'recipeViewer:detailedViewer' recipe.id  %}" class="btn btn-danger">{% trans "Cancel" %}</a>
+                    {% else %}
+                        <a href="{% url 'recipeViewer:index' %}" class="btn btn-danger">{% trans "Cancel" %}</a>
+                    {% endif %}
+                </div>
+                <div class="col-3 text-center">
+                    <button type="submit" class="btn btn-warning">{% trans "Save" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</form>
+
+{# Modal form in order to display the crop dialog #}
+
+<div class="modal fade" id="modalCrop">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Crop your recipe picture</h4>
+            </div>
+            <div class="modal-body">
+                <img src="" id="image" style="max-width:100%; ">
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group pull-left" role="group">
+                    <button type="button" class="btn btn-default js-zoom-in">
+                        <span>+</span>
+                    </button>
+                    <button type="button" class="btn btn-default js-zoom-out">
+                        <span>-</span>
+                    </button>
+                </div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary js-crop-and-upload">Crop and upload</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% load static %}
+
+{# For the cropper modal window #}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.7/cropper.min.js"> </script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.7/cropper.css"> 
+<script src="{% static 'recipeViewer/jQuery-cropper.js' %}"></script>
+
+{% endblock %}

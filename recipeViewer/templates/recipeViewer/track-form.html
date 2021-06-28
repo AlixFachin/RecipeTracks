@@ -1,0 +1,37 @@
+{% extends 'recipeViewer/base.html' %}
+
+{% block body %}
+
+{% load i18n %}
+
+<form method = "POST">
+    {%  csrf_token  %}
+    <div class="row">
+        <div class="col-10 offset-1 border border-light rounded shadow py-4 px-3">
+            {% for field in form  %}
+                <div class="form-group row">
+                    <label for="{{ field.id_for_label }}" class="col-sm-2 col-for-label"> {{ field.label }} </label>
+                    <div class="col-sm-9 mx-3"> {{ field }} 
+                        {% if field.label == 'Ingredients' %}
+                            <small class="form-text text-muted"> {% trans "Separate ingredients with ; or new-line. They will be rendered properly." %}</small>
+                        {% elif field.label == 'Task list' %}
+                            <small class="form-text text-muted">{% trans "Separate task entries with ; to allow for special rendering." %}</small>
+                        {% endif %}
+                    </div>
+                </div>
+            
+            {%  endfor %}
+            <div class="row justify-content-center">
+                <div class="col-3 text-center">
+                    <a href="{% url 'recipeViewer:index'  %}" class="btn btn-danger">{% trans "Cancel" %}</a>
+                </div>
+                <div class="col-3 text-center">
+                    <button type="submit" class="btn btn-warning">{% trans "Save" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</form>
+
+{% endblock %}

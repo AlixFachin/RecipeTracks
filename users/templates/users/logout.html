@@ -1,0 +1,19 @@
+{% extends 'recipeViewer/base.html'  %}
+
+{% block body %}
+
+<div class="row justify-content-center">
+    <div class="col-md-3 justify-content-center">
+        <div class="card text-center">
+            <div class="card-header mb-2">Logout confirmation</div>
+            You have been logged out!
+            <div class="row-col-2 my-2 justify-content-center">
+                <a href="{% url 'recipeViewer:home'  %}" class="btn btn-primary">Back to Home Page</a>
+                <a href="{% url 'login' %}" class="btn btn-primary">Login again</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

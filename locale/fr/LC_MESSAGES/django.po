@@ -1,0 +1,208 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-13 15:39+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: myRecipe/settings.py:120
+msgid "English"
+msgstr "Anglais"
+
+#: myRecipe/settings.py:121
+msgid "French"
+msgstr "Francais"
+
+#: myRecipe/settings.py:122
+msgid "Japanese"
+msgstr "Japonais"
+
+#: recipeViewer/models.py:13 recipeViewer/models.py:41
+msgid "Public"
+msgstr "Public"
+
+#: recipeViewer/models.py:13 recipeViewer/models.py:41
+msgid "Private"
+msgstr "Prive"
+
+#: recipeViewer/templates/recipeViewer/base.html:33
+msgid "Home"
+msgstr "Home"
+
+#: recipeViewer/templates/recipeViewer/base.html:40
+msgid "All Recipes"
+msgstr "Toutes les Recettes"
+
+#: recipeViewer/templates/recipeViewer/base.html:41
+msgid "Add Recipe"
+msgstr "Nouvelle Recette"
+
+#: recipeViewer/templates/recipeViewer/base.html:42
+msgid "Profile"
+msgstr "Profil"
+
+#: recipeViewer/templates/recipeViewer/base.html:43
+msgid "Logout"
+msgstr "Logout"
+
+#: recipeViewer/templates/recipeViewer/base.html:45
+msgid "Sign Up"
+msgstr "Enregistrer"
+
+#: recipeViewer/templates/recipeViewer/base.html:46
+msgid "Login"
+msgstr "Login"
+
+#: recipeViewer/templates/recipeViewer/base.html:54
+msgid "Languages"
+msgstr "Languages"
+
+#: recipeViewer/templates/recipeViewer/home.html:17
+msgid "Welcome to Recipe Tracks!"
+msgstr "Bienvenue sur Recipe Tracks!"
+
+#: recipeViewer/templates/recipeViewer/home.html:19
+msgid ""
+"This website will enable you to find and track great recipes, and write down "
+"notes about them so that you can customize them and eventually improve your "
+"cooking!"
+msgstr ""
+" Ce site web est fait pour trouver de nouvelles recettes, mais aussi (et "
+"surtout) pour suivre ses progres en matiere de cuisine!"
+
+#: recipeViewer/templates/recipeViewer/home.html:21
+#, fuzzy
+#| msgid "All Recipes"
+msgid "Look at all recipes"
+msgstr "Toutes les Recettes"
+
+#: recipeViewer/templates/recipeViewer/home.html:22
+msgid "Check your profile"
+msgstr "Votre Profil"
+
+#: recipeViewer/templates/recipeViewer/home.html:26
+msgid ""
+"This website will enable you to find and track great recipes, and write down "
+"notes about them so that you can customize them and be better at cooking!"
+msgstr ""
+" Ce site web est fait pour trouver de nouvelles recettes, mais aussi (et "
+"surtout) pour suivre ses progres en matiere de cuisine!"
+
+#: recipeViewer/templates/recipeViewer/home.html:28
+msgid "Login (Registered user)"
+msgstr "Login (Utilisateur Existant)"
+
+#: recipeViewer/templates/recipeViewer/home.html:29
+msgid "Register (New User)"
+msgstr "Nouvel Utilisateur"
+
+#: recipeViewer/templates/recipeViewer/home.html:54
+msgid "View"
+msgstr "Voir"
+
+#: recipeViewer/templates/recipeViewer/home.html:56
+#: recipeViewer/templates/recipeViewer/home.html:58
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:49
+msgid "Edit"
+msgstr "Modifier"
+
+#: recipeViewer/templates/recipeViewer/index.html:18
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:24
+msgid "Ingredients"
+msgstr "Ingredients"
+
+#: recipeViewer/templates/recipeViewer/index.html:21
+msgid "Details"
+msgstr "Details"
+
+#: recipeViewer/templates/recipeViewer/index.html:36
+msgid "(current)"
+msgstr ""
+
+#: recipeViewer/templates/recipeViewer/recipe-delete.html:10
+msgid "Are you sure you want to delete?"
+msgstr "Etes-vous sur(e) de vouloir supprimer?"
+
+#: recipeViewer/templates/recipeViewer/recipe-delete.html:11
+msgid "Confirm"
+msgstr "Confirmation"
+
+#: recipeViewer/templates/recipeViewer/recipe-form.html:111
+#: recipeViewer/templates/recipeViewer/track-form.html:16
+msgid ""
+"Separate ingredients with ; or new-line. They will be rendered properly."
+msgstr ""
+"Separez les ingredients avec des ; ils seront affiches en tenant compte de "
+"cela."
+
+#: recipeViewer/templates/recipeViewer/recipe-form.html:113
+#: recipeViewer/templates/recipeViewer/track-form.html:18
+msgid "Separate task entries with ; to allow for special rendering."
+msgstr "Separez les etapes avec ; pour qu'elles soient affichees correctement"
+
+#: recipeViewer/templates/recipeViewer/recipe-form.html:130
+#: recipeViewer/templates/recipeViewer/track-form.html:26
+msgid "Cancel"
+msgstr "Annuler"
+
+#: recipeViewer/templates/recipeViewer/recipe-form.html:133
+#: recipeViewer/templates/recipeViewer/track-form.html:29
+msgid "Save"
+msgstr "Sauvegarder"
+
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:19
+msgid "Recipe created by"
+msgstr "Recette proposee par"
+
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:50
+msgid "Delete"
+msgstr "Supprimer"
+
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:59
+msgid "List of tracks for this recipe"
+msgstr "Liste de tracks pour cette recette"
+
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:65
+msgid "Add a track"
+msgstr "Ajouter un tracking"
+
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:80
+msgid "Input new Track:"
+msgstr "Details du nouveau Track"
+
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:91
+msgid "Create Track!"
+msgstr "Cree un track"
+
+#: recipeViewer/views.py:83
+msgid "You are not autorized to update a recipe you don't own"
+msgstr "Vous n'etes pas autorise a modifier une recette qui ne vous appartient pas"
+
+#: recipeViewer/views.py:103
+msgid "You are not autorized to delete a recipe you don't own"
+msgstr "Vous n'etes pas autorise a supprimer une recette qui ne vous appartient pas"
+
+#: recipeViewer/views.py:136
+msgid "Cannot create the Recipe Track - Not authorized"
+msgstr "Vous n'avez pas l'autorisation de creer un nouveau track"
+
+#: recipeViewer/views.py:139
+msgid "Cannot find the corresponding recipe"
+msgstr "Ne peux pas trouver la recette correspondante"
+
+#: recipeViewer/views.py:142
+msgid "Invalid form"
+msgstr "Formulaire invalide"

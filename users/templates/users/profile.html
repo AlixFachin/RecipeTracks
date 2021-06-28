@@ -1,0 +1,189 @@
+
+{% extends 'recipeViewer/base.html' %}
+
+{% block javascript %}
+
+<script>
+    $(function (){
+
+        /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
+        $("#id_image").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#image").attr("src", e.target.result);
+                    $("#modalCrop").modal("show");
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+
+
+        });
+
+        /* SCRIPT TO HANDLE THE CROPPER BOX */
+        var $image = $("#image");
+        var cropBoxData;
+        var canvasData;
+        $("#modalCrop").on("shown.bs.modal", function () {
+            $image.cropper({
+                viewMode: 1,
+                aspectRatio: 1/1,
+                minCropBoxWidth: 200,
+                minCropBoxHeight: 200,
+                ready: function() {
+                    $image.cropper("setCanvasData", canvasData);
+                    $image.cropper("serCropBoxData", cropBoxData);
+                }
+            });
+        }).on("hidden.bs.modal", function () {
+            cropBoxData = $image.cropper("getCropBoxData");
+            canvasData = $image.cropper("getCanvasData");
+            $image.cropper("destroy");
+        });
+
+        $(".js-zoom-in").click(function() {
+            $image.cropper("zoom", 0.1);
+        })
+
+        $(".js-zoom-out").click(function() {
+            $image.cropper("zoom", -0.1);
+        })
+
+        /* SCRIPT TO COLLECT THE DATA AND POST TO THE SERVER */
+        $(".js-crop-and-upload").click(function () {
+            var cropData = $image.cropper("getData");
+            console.log(cropData["x"]);
+            console.log(cropData["y"]);
+            console.log(cropData["height"]);
+            console.log(cropData["width"]);
+            
+            document.getElementById("id_x").value = cropData["x"];
+            document.getElementById("id_y").value = cropData["y"];
+            document.getElementById("id_height").value = cropData["height"];
+            document.getElementById("id_width").value = cropData["width"];
+
+            $("#modalCrop").modal("hide");
+        });
+
+    });
+</script>
+
+{% endblock %}
+
+
+{% block body %}
+
+{% load i18n %}
+
+    <div class="card mb-3 mx-5" style="max-width: 540px">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="{{ user.profile.image.url }}" width="200px" class="img-thumbnail overflow-hidden">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"> {{ user.get_username}} </h5>
+                    <p class="card-text"> {{ user.email }} </p>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapsePictureEdit" aria-expanded="false" aria-controls="collapsePictureEdit">
+                {% trans "Edit profile picture"  %}
+            </button>
+            <a href="{% url 'change_password' %}" class="btn btn-primary" role="button"> Change Password </a>
+        </div>
+    </div>
+
+    <div class="collapse" id="collapsePictureEdit">
+        <form method="POST" action= "{% url 'change_profile_picture' %}" enctype="multipart/form-data" class="form-inline mb-3 p-2 border border-primary">
+            {% csrf_token %}
+            
+            {# We need a textfield, a visibility choice field and finally a "Save" button #}
+            <div class="form-row align-items-center">
+                <div class="col-auto">
+                    <label> {% trans 'Choose new Profile Picture File:' %}  </label>
+                </div>
+                {% for field in picture_form %}
+                
+                    <div class="col-auto">
+                        <label class="sr-only" for="trackInput"> {% trans field.label %} </label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                
+                {# Text field containing the value of the current recipe #}
+                <button type="submit" class="btn btn-primary">{% trans 'Upload picture' %}</button>
+            </div>
+
+        </form>
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <p> Here is a list of my recipes: </p>
+        </div>
+        <div class="row">
+            <table class="table table-striped">
+                {% for recipe in user_recipes %}
+                    <tr> <th scope="row"> <a href="{% url 'recipeViewer:detailedViewer'  recipe.id   %}"> {{ recipe.recipe_name }} </a> </th> <td> {{recipe.get_visibility_display}} </td>  <td> {{recipe.ingredients | truncatewords:5 }} </td> <td> {{ recipe.task_list | truncatewords:5 }} </td></tr>
+                {% empty %}
+                    <tr> <td>No recipe posted yet... Do you want to try? </td> <td><a class="btn btn-primary" href="{% url 'recipeViewer:create_recipe' %}">Add Recipe</a> </td> </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="row">
+            <p> Here is a list of my recent recipe tracks</p>
+            <table class="table table-striped">
+                {% for track in track_list %}
+                <tr> 
+                    <th scope="row"> <a href="{% url 'recipeViewer:detailedViewer'  track.recipe_id.id   %}"> {{ track.recipe_id.recipe_name }} </a> </th>  
+                    <td> {{ track.created_date | date:"j-M-Y"  }} </td>
+                    <td> {{ track.comment | truncatewords:5 }} </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    
+    {# Modal form in order to display the crop dialog #}
+
+    <div class="modal fade" id="modalCrop">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Crop your recipe picture</h4>
+                </div>
+                <div class="modal-body">
+                    <img src="" id="image" style="max-width:100%; image-orientation:from-image">
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group pull-left" role="group">
+                        <button type="button" class="btn btn-default js-zoom-in">
+                            <span>+</span>
+                        </button>
+                        <button type="button" class="btn btn-default js-zoom-out">
+                            <span>-</span>
+                        </button>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary js-crop-and-upload">Crop and upload</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% load static %}
+
+    {# For the cropper modal window #}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.7/cropper.min.js"> </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.7/cropper.css"> 
+    <script src="{% static 'recipeViewer/jQuery-cropper.js' %}"></script>
+    
+
+{% endblock %}

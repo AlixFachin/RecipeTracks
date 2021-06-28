@@ -1,0 +1,101 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <link rel="stylesheet" href="{% static 'recipeViewer/bootstrap.min.css' %}" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>   
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="{% static 'recipeViewer/bootstrap.food.css' %}">
+    <link rel="stylesheet" href="{% static 'recipeViewer/myRecipe.css' %}">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cooking Tracks</title>
+
+    <script>
+ 
+        function languageClickHandler(clickedOnLink) {
+            document.getElementById('language_field').value = clickedOnLink.id.substring(3,5);
+            document.getElementById('languageform').submit();
+        }
+
+    </script>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark mb-md-3" style="background-color: #D0863F">
+        {% comment %} Translator : Translation of the navigation bar {% endcomment %}
+        <a class="navbar-brand" href="{% url 'recipeViewer:home' %}" > {% trans "Home" %} </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav">
+                {% if user.is_authenticated  %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'recipeViewer:index' %}"> {% trans "All Recipes" %}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'recipeViewer:create_recipe' %}">{% trans "Add Recipe" %}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'recipeViewer:search' %}">{% trans "Search" %}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}"> {% trans "Profile" %} </a> </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"> {% trans "Logout" %} {{ user.get_username }} </a> </li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">{% trans "Sign Up" %}</a> </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">{% trans "Login" %}</a></li>
+                {% endif  %}
+                {# LANGUAGE BAR TOOLS  #}
+                <li class="nav-item dropdown">
+                    <form action="{% url 'set_language' %}" method="post" id="languageform">  {% csrf_token %}
+                    <input name="next" type="hidden" value="">
+                    <input name="language" type="hidden" value="" id="language_field">
+                    
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {% trans "Languages" %}</a>
+                    <div class="dropdown-menu navbar-dark" style="background-color: #D0863F" aria-labelledby="navbarDropdown">
+                        
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        
+                            {% for language in languages %}
+                                <a class="nav-link nav-item" href="#" id="ln-{{language.code}}" onclick="languageClickHandler(this)"> {{language.name_local}}</a>
+                            {% endfor %}
+
+                    </div>
+                    </form>
+ 
+                </li>
+            </ul>
+        </div>  
+    </nav>
+    <!-- Displaying messages if needed -->
+    {%  if messages  %}
+        {% for message in messages %}
+            {% if message.tags == "error" %}
+                <div class="alert alert-danger"> {{ message }} </div>
+            {% else %}
+                <div class="alert alert-{{message.tags}}"> {{ message }} </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% block body %}
+
+
+    {% endblock %}
+
+<footer class="bd-footer text-muted bg-light">
+    
+    <p class="small"> Made with <a href="https://www.djangoproject.com">Django</a> and <a href="https://getbootstrap.com/">Bootstrap</a>. Pictures from <a href="https://unsplash.com/">Unsplash</a></p>
+</footer>
+
+{% block javascript %}
+{% endblock %}
+
+</body>
+
+
+</html>

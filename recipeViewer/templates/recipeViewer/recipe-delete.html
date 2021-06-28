@@ -1,0 +1,30 @@
+{% extends 'recipeViewer/base.html' %}
+
+{% block body %}
+{% load i18n %}
+<form method ='POST'>
+    {% csrf_token %}
+
+<div class="container-sm">
+    <div class="row justify-content-center">
+        <div class="col-md-5 mx-auto justify-content-center">
+            <div class="card bg-light">
+                <div class="card-header">{% trans "Confirmation Request" %}</div>
+                
+                    <div class="row my-4 px-3">
+                        <div class="col"> {% trans "Are you sure you want to delete " %} {{ recipe.recipe_name }} ? </div>
+                    
+                    </div>
+                <div class="card-footer text-center">
+                    
+                    <button type="submit" class="btn btn-primary">{% trans "Confirm" %}</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</form>
+
+
+{% endblock %}

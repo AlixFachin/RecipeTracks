@@ -1,0 +1,31 @@
+{% extends 'recipeViewer/base.html'  %}
+
+{% block body %}
+<form method = "POST">
+            
+<div class="row">
+    <div class="col-md-5 offset-2 ">
+        <div class="card">
+                <div class="card-header">Please enter the following info to create your account! </div>
+                {% csrf_token %}
+                <div class="row row-cols-2">
+                    {% for field in form %}
+ 
+                       <div class="col mt-2 px-4"> <label> {{ field.label }} </label> </div>
+                        <div class="col mt-2 px-2">   {{ field }} </div>
+                        
+                    {%  endfor %}
+                    
+                </div>
+                
+            <div class="card-footer mt-4 text-center">
+                <button type="submit" class="btn btn-primary">Signup</button>
+            </div>         
+        </div>
+    </div>
+</div>
+
+</form>   
+        
+
+{% endblock %}

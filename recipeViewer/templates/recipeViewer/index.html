@@ -1,0 +1,50 @@
+
+{% extends 'recipeViewer/base.html' %}
+
+{% block body %}
+{% load i18n %}
+{% load static %}
+
+    <div class="container">
+    {% for recipe in all_recipe_list %}
+    <div class="row justify-content-start my-md-3">
+        <!-- The index will have two columns: one for the image (a third of width) and one for the rest of the text -->
+        <div class="col-12 col-sm-5 col-md-3 col-lg-3 mb-4 mb-md-2">  <img class="img-fluid" 
+            {% if recipe.image_file %} src=" {{ recipe.image_file.url  }}" {% else %} src="{% static 'recipeViewer/default_picture.jpg' %}" {% endif %} />
+        </div>
+        <div class="col col-sm-5 col-md-7">
+            <h4> <a href="{% url 'recipeViewer:detailedViewer' recipe.id  %}">{{ recipe.recipe_name  }} </a> <small > ({{ recipe.recipe_tags}}) </small> </h4>
+
+            <p class="font-weight-light">{% trans "Ingredients" %}: {{ recipe.ingredients | truncatewords:5 }}</p>
+            <p class="font-weight-lighter"> {{ recipe.task_list | truncatewords:10 }} </p>
+        </div>
+        <div class="col align-items-center"> <a class="btn btn-outline-success" href="{% url 'recipeViewer:detailedViewer' recipe.id  %}"> {% trans "Details" %} </a>  </div>
+    </div>
+    {% endfor %}
+    
+    <!-- Block for pagination control  -->
+    {% if all_recipe_list.has_other_pages  %}
+    <ul class="pagination">
+        {% if all_recipe_list.has_previous %}
+        <li class="page-item"> <a class="page-link" href="?page={{ all_recipe_list.previous_page_number }}">&laquo;</a> </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">&laquo;</span> </li>
+        {% endif %}
+
+        {% for i in all_recipe_list.paginator.page_range %}
+            {% if all_recipe_list.number == i %}
+                <li class="page-item active"> <a class="page-link"><span> {{ i }} <span class="sr-only"> {% trans "(current)" %}</span> </span></a></li>
+            {% else %}
+                <li class="page-item"> <a class="page-link" href="?page={{ i }}"> {{ i }} </a>  </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if all_recipe_list.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ all_recipe_list.next_page_number }}"> &raquo; </a> </li>
+        {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#"><span> &raquo; </span> </a></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+    </div>
+{% endblock %}

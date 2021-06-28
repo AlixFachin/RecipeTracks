@@ -1,0 +1,72 @@
+
+{% extends 'recipeViewer/base.html' %}
+
+{% block body %} 
+<!-- Home Page 
+    It will contain the usual nav bar at the top, then a big welcome message, then snapshot of three welcome recipes
+    Then the footer
+-->
+{% load static %}
+{% load i18n %}
+
+
+<!-- <div class="jumbotron text-center" style="background-image: url( {% static 'lukas-blazek-cooking-board-unsplash.jpg' %} ); size: cover; ">
+ -->
+<div class="jumbotron text-center" style="background-image: url( {% static 'lukas-blazek-cooking-board-unsplash.jpg' %} ); height:100%; background-repeat: no-repeat; ">
+    <div class="container">
+        <h1> {% trans "Welcome to Recipe Tracks!" %}</h1>
+        {% if user.is_authenticated %}
+            <p class="lead text-muted"> {% trans "This website will enable you to find and track great recipes, and write down notes about them so that you can customize them and eventually improve your cooking!"  %} </p>
+            <p>
+                <a href="{% url 'recipeViewer:index' %}" class="btn btn-primary">{% trans "Look at all recipes" %}</a>
+                <a href="{% url  'profile' %}" class="btn btn-primary">{% trans "Check your profile" %}</a>
+            </p>
+
+        {%  else %}
+            <p class="lead text-muted"> {% trans "This website will enable you to find and track great recipes, and write down notes about them so that you can customize them and be better at cooking!"  %} </p>
+            <p>
+                <a href="{% url 'login' %}" class="btn btn-primary">{% trans "Login (Registered user)" %}</a>
+                <a href="{% url 'register' %}" class="btn btn-primary">{% trans "Register (New User)" %}</a>
+            </p>
+
+        {% endif %}
+        </div>
+</div>
+
+<div class="album bg-light">
+    <div class="container">
+        <div class="row">
+            {% for recipe in top_recipe_list %}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        {% if recipe.image_file %}
+                            <a href="{% url 'recipeViewer:detailedViewer' recipe.id  %}"> <img class="img-thumbnail overflow-hidden card-img-top" width="200px" height="200px" 
+                                src=" {{ recipe.image_file.url  }}" > </a>
+                        {% else %}
+                            <a href="{% url 'recipeViewer:detailedViewer' recipe.id  %}"> <img class="img-thumbnail overflow-hidden card-img-top" width="200px" height="200px" 
+                                src=" {% static 'recipeViewer/default_picture.jpg' %}"> </a>
+                        {% endif %}
+                        <div class="card-body">
+                            <div class="card-title"> <h5><a href="{% url 'recipeViewer:detailedViewer' recipe.id  %}">{{ recipe.recipe_name  }} </a> </h5> </div>
+                            <p class="card-text"> {{ recipe.ingredients | truncatewords:5 }} <br> {{ recipe.task_list | truncatewords:5 }} </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a href="{% url 'recipeViewer:detailedViewer' recipe.id %}" class="btn btn-sm btn-outline-secondary"> {% trans "View" %} </a>
+                                    {% if user.is_authenticated and recipe.user_name.id == user.id %}
+                                        <a href="{% url 'recipeViewer:update_recipe' recipe.id %}" class="btn btn-sm btn-outline-secondary"> {% trans "Edit" %} </a>
+                                    {% else %}
+                                        <a href="{% url 'recipeViewer:update_recipe' recipe.id %}" class="btn btn-sm btn-outline-secondary disabled"> {% trans "Edit" %} </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

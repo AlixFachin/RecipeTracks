@@ -1,0 +1,15 @@
+{% extends 'recipeViewer/base.html' %}
+
+{% block body %}
+{% load i18n %}
+
+<form method="POST" enctype="multipart/form-data" id="profilePicEditForm">
+    {% csrf_token %}
+    
+    {{ form }}
+
+    <button type="submit" class="btn btn-warning">{% trans "Save" %}</button>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,155 @@
+{% extends 'recipeViewer/base.html' %}
+
+{% block body %} 
+{% load i18n %}
+{% load static %}
+
+<!-- This will contain the details of a recipe -->
+<div class="container">
+    <div class="row justify-content-center mb-3"> 
+        <div class="col text-left"> <h2> {{ recipe.recipe_name  }} </h2> </div> 
+    </div>
+    {% if recipe.variation_of %}
+    <div class="row justify-content-center mb-3"> 
+            <div class="col text-left offset-1"> <h6> {% trans "Variation of:" %} <a href="{% url 'recipeViewer:detailedViewer' recipe.variation_of.id  %}">{{ recipe.variation_of.recipe_name  }} </a> </h6> 
+            
+                {% if user.is_authenticated and user.id == recipe.user_name.id %}
+                    <a href="{% url 'recipeViewer:remove_variation' recipe.id  %}"> <small> ({% trans "Remove variation reference" %}) </small></a>
+                  {% endif %}
+            </div>
+            
+</div>
+    {% endif %}
+    
+    <div class="row justify-content-start mb-3">
+        <!-- The index will have two columns: one for the image (a third of width) and one for the rest of the text -->
+        
+        <div class="col-auto col-md-5 align-self-center mb-3">  
+            {% if recipe.image_file  %}
+                <img class="rounded  img-fluid" max-width="180px" src=" {{ recipe.image_file.url  }}" />  
+            {% else %}
+                <img class="rounded  img-fluid" max-width="180px" src="{% static 'recipeViewer/default_picture.jpg' %}" />
+            {% endif %}
+        </div>
+        <div class="col-md-5">
+            <h6> {% trans "Recipe created by" %} {{ recipe.user_name }} {% trans "on the:" %} {{ recipe.created_date | date   }} (<span class="badge badge-light">{{ recipe.get_visibility_display }}</span>)</h6>
+            {% for recipe_tag in tag_list  %}
+                <span class="badge badge-secondary"> {{recipe_tag}} </span>
+            {% endfor %}
+            
+            <h5>{% trans "Ingredients" %}: </h5>
+            <div class="row mb-3 border border-light">
+                {% for ingredient in ingredients_list %}
+                    <div class="col-12 col-md-6  bg-light">
+                         {{ ingredient }}
+                    </div>
+                {% endfor %}
+            </div>
+            
+        </div>
+        
+    </div>
+    <div class="row justify-content-center">
+        <table class="table table-striped table-borderless">
+            <tbody>
+            {% for recipe_task in task_list  %} {#class="{% cycle 'bg-white' 'bg-light' %}" #}
+                <tr ><th scope="row"> {{ forloop.counter }} </th><td> {{ recipe_task }} </td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if user.is_authenticated %}
+
+    <div class="row justify-content-center mb-3 bg-light">
+        <!-- Recipe-related menu actions -->
+        <div class="col col-lg-2 text-center"><a class="btn btn-primary" href="#">{% trans "Rate Recipe" %}</a></div>
+        <div class="col col-lg-2 text-center"><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseTrackForm" aria-expanded="false" aria-controls="collapseTrackForm">
+            {% trans "Add a note"  %}
+        </button></div>
+        <!-- Button related to variation recipe: if the recipe is a variation we edit the 'master' recipe -->
+        {% if recipe.variation_of %}
+            <div class="col col-lg-2 text-center"><a class="btn btn-primary" href="{% url 'recipeViewer:add_variation' recipe.variation_of.id  %}">{% trans "Add variation" %}</a></div>            
+        {% else %}
+            <div class="col col-lg-2 text-center"><a class="btn btn-primary" href="{% url 'recipeViewer:add_variation' recipe.id  %}">{% trans "Add variation" %}</a></div>            
+        {% endif %}
+        <div class="col col-lg-2 text-center"><a class="btn btn-primary" href="#">{% trans "Add to List" %}</a></div>
+        {% if user.id == recipe.user_name.id %}
+            <div class="col col-lg-2 text-center"><a class="btn btn-warning" href="{% url 'recipeViewer:update_recipe' recipe.id  %}">{% trans "Edit" %}</a></div>
+            <div class="col col-lg-2 text-center"><a class="btn btn-danger" href="{% url 'recipeViewer:delete_recipe' recipe.id  %}">{% trans "Delete" %}</a></div>      
+        {% endif %}
+        </div>
+
+    {% endif %}
+
+    {% if variations_list %}
+        <div class="row mb-2">
+            <div class="col bg-secondary">
+                <a href="#collapseVariationsTable"  data-toggle="collapse" aria-expanded="false" aria-controls="collapseVariationTable">  {% trans "List of recipe variations" %}</a>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div class="collapse" id="collapseVariationsTable">
+            <table class="table table-striped table-borderless">
+                <tbody>
+                {% for variation_recipe in variations_list  %} {#class="{% cycle 'bg-white' 'bg-light' %}" #}
+                    <tr ><th scope="row"> <a href="{% url 'recipeViewer:detailedViewer' variation_recipe.id  %}"> {{ variation_recipe.recipe_name }} </a> </th><td> ({{ variation_recipe.user_name }}, {{ variation_recipe.created_date | date  }}) </td><td> {{ variation_recipe.task_list | truncatewords:10  }} </td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+    {% endif %}
+
+    {# Recipe Tracks section of the website  #}
+
+    <div class="row mb-2">
+        <div class="col bg-secondary">
+            {% trans "List of cooking notes for this recipe" %}
+        </div>
+    </div>
+    
+    {# NEW SECTION -> Tabbed section to allow for several inputs   #}
+
+    {# Collapsible section with fields necessary to input a new Track #}
+    {% if user.is_authenticated %}
+        <div class="collapse" id="collapseTrackForm">
+            <form method="POST" action= "{% url 'recipeViewer:create_track' %}" class="form-inline mb-3 p-2 border border-primary">
+                {% csrf_token %}
+                
+                {# We need a textfield, a visibility choice field and finally a "Save" button #}
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
+                        <label> {% trans 'Input new Track:' %}  </label>
+                    </div>
+                    {% for field in track_form %}
+                    
+                        <div class="col-auto">
+                            <label class="sr-only" for="trackInput"> {% trans field.label %} </label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    
+                    {# Text field containing the value of the current recipe #}
+                    <button type="submit" class="btn btn-primary">{% trans 'Create Track!' %}</button>
+                </div>
+
+            </form>
+        </div>
+    {% endif %}
+
+    <div class="row justify-content-center">
+        <table class="table table-striped">
+            <tbody>
+            {% for track in track_list  %}
+                <tr><td scope="row"> {{ track.created_date | date:"j-M-Y" }} (<span class="badge badge-secondary">{{ track.user_id }}</span>)</td><td span=3> {{ track.comment }} </td> </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+{% endblock %}

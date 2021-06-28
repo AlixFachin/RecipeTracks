@@ -1,0 +1,206 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-13 15:39+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: myRecipe/settings.py:120
+msgid "English"
+msgstr "英語"
+
+#: myRecipe/settings.py:121
+msgid "French"
+msgstr "フランス語"
+
+#: myRecipe/settings.py:122
+msgid "Japanese"
+msgstr "日本語"
+
+#: recipeViewer/models.py:13 recipeViewer/models.py:41
+msgid "Public"
+msgstr "公共"
+
+#: recipeViewer/models.py:13 recipeViewer/models.py:41
+msgid "Private"
+msgstr "秘密"
+
+#: recipeViewer/templates/recipeViewer/base.html:33
+msgid "Home"
+msgstr "ホーム"
+
+#: recipeViewer/templates/recipeViewer/base.html:40
+msgid "All Recipes"
+msgstr "全レシピ"
+
+#: recipeViewer/templates/recipeViewer/base.html:41
+msgid "Add Recipe"
+msgstr "レシピ追加"
+
+#: recipeViewer/templates/recipeViewer/base.html:42
+msgid "Profile"
+msgstr "プロファイル"
+
+#: recipeViewer/templates/recipeViewer/base.html:43
+msgid "Logout"
+msgstr "ログアウト"
+
+#: recipeViewer/templates/recipeViewer/base.html:45
+msgid "Sign Up"
+msgstr "登録"
+
+#: recipeViewer/templates/recipeViewer/base.html:46
+msgid "Login"
+msgstr "ログイン"
+
+#: recipeViewer/templates/recipeViewer/base.html:54
+msgid "Languages"
+msgstr "国語"
+
+#: recipeViewer/templates/recipeViewer/home.html:17
+msgid "Welcome to Recipe Tracks!"
+msgstr "レシピトラックスへよこそ！"
+
+#: recipeViewer/templates/recipeViewer/home.html:19
+msgid ""
+"This website will enable you to find and track great recipes, and write down "
+"notes about them so that you can customize them and eventually improve your "
+"cooking!"
+msgstr ""
+"このサイトの目標は新しいレシピを見つかる上で、ご自分のクッキング歴史を登録し"
+"ながら上達する。"
+
+#: recipeViewer/templates/recipeViewer/home.html:21
+#, fuzzy
+#| msgid "All Recipes"
+msgid "Look at all recipes"
+msgstr "全レシピ"
+
+#: recipeViewer/templates/recipeViewer/home.html:22
+msgid "Check your profile"
+msgstr "プロファイル"
+
+#: recipeViewer/templates/recipeViewer/home.html:26
+msgid ""
+"This website will enable you to find and track great recipes, and write down "
+"notes about them so that you can customize them and be better at cooking!"
+msgstr ""
+"このサイトの目標は新しいレシピを見つかる上で、ご自分のクッキング歴史を登録し"
+"ながら上達する。"
+
+#: recipeViewer/templates/recipeViewer/home.html:28
+msgid "Login (Registered user)"
+msgstr "ログイン"
+
+#: recipeViewer/templates/recipeViewer/home.html:29
+msgid "Register (New User)"
+msgstr "新しいユーサーを登録"
+
+#: recipeViewer/templates/recipeViewer/home.html:54
+msgid "View"
+msgstr "表示"
+
+#: recipeViewer/templates/recipeViewer/home.html:56
+#: recipeViewer/templates/recipeViewer/home.html:58
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:49
+msgid "Edit"
+msgstr "変更"
+
+#: recipeViewer/templates/recipeViewer/index.html:18
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:24
+msgid "Ingredients"
+msgstr "材料"
+
+#: recipeViewer/templates/recipeViewer/index.html:21
+msgid "Details"
+msgstr "内容"
+
+#: recipeViewer/templates/recipeViewer/index.html:36
+msgid "(current)"
+msgstr ""
+
+#: recipeViewer/templates/recipeViewer/recipe-delete.html:10
+msgid "Are you sure you want to delete?"
+msgstr "本当に解除をしたいですか？"
+
+#: recipeViewer/templates/recipeViewer/recipe-delete.html:11
+msgid "Confirm"
+msgstr "確定"
+
+#: recipeViewer/templates/recipeViewer/recipe-form.html:111
+#: recipeViewer/templates/recipeViewer/track-form.html:16
+msgid ""
+"Separate ingredients with ; or new-line. They will be rendered properly."
+msgstr "材料は；で分別を下さい。この字を使いながら表示されます。"
+
+#: recipeViewer/templates/recipeViewer/recipe-form.html:113
+#: recipeViewer/templates/recipeViewer/track-form.html:18
+msgid "Separate task entries with ; to allow for special rendering."
+msgstr "ステップは；で分別を下さい。この字を使いながら表示されます。"
+
+#: recipeViewer/templates/recipeViewer/recipe-form.html:130
+#: recipeViewer/templates/recipeViewer/track-form.html:26
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: recipeViewer/templates/recipeViewer/recipe-form.html:133
+#: recipeViewer/templates/recipeViewer/track-form.html:29
+msgid "Save"
+msgstr "保存"
+
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:19
+msgid "Recipe created by"
+msgstr "入力しましたユーザーは"
+
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:50
+msgid "Delete"
+msgstr "解消"
+
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:59
+msgid "List of tracks for this recipe"
+msgstr "レシピのトラックのリスト"
+
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:65
+msgid "Add a track"
+msgstr "トラック増加"
+
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:80
+msgid "Input new Track:"
+msgstr "トラック入力"
+
+#: recipeViewer/templates/recipeViewer/recipeDetail.html:91
+msgid "Create Track!"
+msgstr "トラック作成"
+
+#: recipeViewer/views.py:83
+msgid "You are not autorized to update a recipe you don't own"
+msgstr ""
+
+#: recipeViewer/views.py:103
+msgid "You are not autorized to delete a recipe you don't own"
+msgstr ""
+
+#: recipeViewer/views.py:136
+msgid "Cannot create the Recipe Track - Not authorized"
+msgstr "新しいトラック作成できません。許可がないです。"
+
+#: recipeViewer/views.py:139
+msgid "Cannot find the corresponding recipe"
+msgstr "レシピを見つかりません。"
+
+#: recipeViewer/views.py:142
+msgid "Invalid form"
+msgstr "入力エラー"
