@@ -69,4 +69,10 @@ Now you should be able to run the server locally.
 python3 manage.py runserver
 ```
 And if everything is OK, you should see the message:
+```
+Django version 3.2.4, using settings 'myRecipe.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+```
+Yay! 🍾🎉🍾🎉🍾🎉🍾🎉🍾🎉
 
