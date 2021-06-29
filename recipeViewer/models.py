@@ -22,7 +22,7 @@ class Recipe(models.Model):
     created_date = models.DateTimeField(editable=False, default=timezone.now)
     visibility = models.CharField(max_length=2, choices=VISIBILITY_CHOICES, default=PRIVATE)
     # Relations with other recipes
-    variation_of = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, related_name='variations')
+    # variation_of = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, related_name='variations')
 
     def __str__(self):
         return self.recipe_name
