@@ -48,6 +48,7 @@ coverage.xml
 
 # environment settings
 .env
+.secret*
 .venv
 env/
 venv/
