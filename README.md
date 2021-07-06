@@ -76,3 +76,16 @@ Quit the server with CONTROL-C.
 ```
 Yay! 🍾🎉🍾🎉🍾🎉🍾🎉🍾🎉
 
+## Seeding the database
+For more information, the answer is at the following link:<https://docs.djangoproject.com/en/3.2/ref/django-admin/>.
+
+In order to dump the current data into a file, you can do:
+```
+python3 manage.py dumpdata -o filename.json.gz
+```
+_Note that you can dump only some models, e.g. `python3 manage.py dumpdata recipeViewer -o recipes.json.gz`_
+
+In order to load the data from a file to a database, you can do:
+```
+python3 manage.py loaddata filename.json.gz
+```
