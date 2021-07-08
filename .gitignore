@@ -10,9 +10,11 @@ media
 *.bak
 
 # Python
-
 *.py[cod]
 *$py.class
+
+# Compiled Language files
+*.mo
 
 #Distribution / Packaging
 .Python build/
