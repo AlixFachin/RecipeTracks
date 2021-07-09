@@ -7,7 +7,8 @@ RUN python3 -m pip install -r requirements.txt
 RUN python3 -m pip install Pillow
 COPY . /code/
 # Database setup
-RUN python3 manage.py migrate
+RUN python3 manage.py makemigrations --noinput
+RUN python3 manage.py migrate --noinput
 
 EXPOSE 8000
 # Running the actual server (test version - NOT PROD)
