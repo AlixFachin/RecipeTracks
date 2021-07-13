@@ -1,15 +1,31 @@
 FROM python:3.7
-ENV PYTHONUNBUFFERED=1
-WORKDIR /code
-COPY requirements.txt /code/
+
+ENV PYTHONBUFFERED 1
+ENV PYTHONWRITEBYTECODE 1
+
+RUN apt-get update && apt-get install -y netcat
+
+# create an app user in the app group
+RUN useradd --user-group --create-home --no-log-init --shell /bin/bash/ app
+
+ENV APP_HOME=/home/RecipeTracks
+
+# Create static directory
+RUN mkdir -p $APP_HOME/static
+
+WORKDIR $APP_HOME
+
+COPY requirements.txt $APP_HOME
+RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install -r requirements.txt
-# Adding manual Pillow install because locally we use the binary/wheel version of Pillow
 RUN python3 -m pip install Pillow
-COPY . /code/
+
+COPY . $APP_HOME 
+RUN chown -R app:app $APP_HOME
+
+USER app:app
+
 # Database setup
 RUN python3 manage.py makemigrations --noinput
 RUN python3 manage.py migrate --noinput
-
-EXPOSE 8000
-# Running the actual server (test version - NOT PROD)
-CMD python3 manage.py runserver 0.0.0.0:8000
+RUN python3 manage.py collectstatic --noinput

@@ -18,16 +18,31 @@ services:
         timeout: 10s
         retries: 5
   web:
-      container_name: django
-      build: ./
-      command: python3 manage.py runserver 0.0.0.0:8000
-      env_file:
-        - .env
-      ports:
-        - 8000:8000
-      depends_on: 
-        db:
-      restart: on-failure
+    container_name: django
+    build: ./
+    command: gunicorn myRecipe.wsgi:application --bind 0.0.0.0:8000 --workers=4
+    env_file:
+      - .env
+    expose:
+      - 8000
+    depends_on: 
+      - db
+    volumes:
+      - staticfiles:/home/RecipeTracks/static/
+    restart: on-failure
+  
+  nginx:
+    container_name: nginx
+    image: nginx:mainline-alpine
+    restart: always
+    ports:
+      - 1337:80
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - staticfiles:/home/RecipeTracks/static/
+    depends_on: 
+      - web
 
 volumes:
   postgres-data:
+  staticfiles:
