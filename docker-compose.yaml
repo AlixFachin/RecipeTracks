@@ -6,11 +6,12 @@ services:
     image: postgres:latest
     restart: always
     env_file: 
-      - .env
-      - .postgresql.env
+      - ./secrets/.env
+      - ./secrets/.postgresql.env
     ports:
       - 5432:5432
     volumes:
+      - ./secrets/:/home/RecipeTracks/config
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
         test: ["CMD", "nc","-z","localhost","5432"]
@@ -28,6 +29,7 @@ services:
     depends_on: 
       - db
     volumes:
+      - ./secrets/:/home/RecipeTracks/config
       - staticfiles:/home/RecipeTracks/static/
     restart: on-failure
   
