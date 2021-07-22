@@ -25,7 +25,4 @@ RUN chown -R app:app $APP_HOME
 
 USER app:app
 
-# Database setup
-RUN python3 manage.py makemigrations --noinput
-RUN python3 manage.py migrate --noinput
-RUN python3 manage.py collectstatic --noinput
+ENTRYPOINT [ "./entrypoint.sh" ]

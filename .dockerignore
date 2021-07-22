@@ -3,4 +3,8 @@ node_modules
 # File helping in dev
 .secrets.md
 .env
-
+# Documentation files, not needed to copy over images
+README.md
+RecipeTrack_screenshot.png
+#Database used in development
+db.sqlite3

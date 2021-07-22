@@ -1,4 +1,4 @@
-version: '3'
+version: '3.1'
 
 services:
   db:
@@ -6,7 +6,6 @@ services:
     image: postgres:latest
     restart: always
     env_file: 
-      - ./secrets/.env
       - ./secrets/.postgresql.env
     ports:
       - 5432:5432
@@ -18,21 +17,20 @@ services:
         interval: 30s
         timeout: 10s
         retries: 5
+
   web:
     container_name: django
     build: ./
     command: gunicorn myRecipe.wsgi:application --bind 0.0.0.0:8000 --workers=4
-    env_file:
-      - .env
     expose:
       - 8000
     depends_on: 
       - db
     volumes:
-      - ./secrets/:/home/RecipeTracks/config
       - staticfiles:/home/RecipeTracks/static/
+      - ./secrets/.env:/home/RecipeTracks/.env
     restart: on-failure
-  
+
   nginx:
     container_name: nginx
     image: nginx:mainline-alpine
