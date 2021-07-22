@@ -1,3 +1,15 @@
+# environment settings
+.env
+*.env
+.secret*
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+secrets/
+
 # Django
 *.log
 *.pot
@@ -5,6 +17,9 @@
 __pycache__
 db.sqlite3
 media
+
+# i18n binary files
+*.mo
 
 # Backup files
 *.bak
@@ -47,16 +62,6 @@ coverage.xml
 
 # Python Environment
 .python-version
-
-# environment settings
-.env
-.secret*
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
 
 #node_modules
 node_modules/

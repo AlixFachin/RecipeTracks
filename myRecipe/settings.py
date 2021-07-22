@@ -85,12 +85,12 @@ DATABASES = {
         'USER': config('DBUSER'),
         'PASSWORD': config('DBPWD'),
         'HOST': config('DBHOST'),
-        'PORT': '',
+        'PORT': config('DBPORT'),
     },
-    'test': {
-       'ENGINE': 'django.db.backends.sqlite3',
-       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    # 'default': {
+    #    'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
 }
 
 
@@ -144,8 +144,9 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL='recipeViewer:index'
 LOGIN_URL = 'login'
-MEDIA_ROOT = os.path.join(BASE_DIR,'pictures')
+MEDIA_ROOT = os.path.join(BASE_DIR,'profile_pictures')
 MEDIA_URL = '/pictures/'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), MEDIA_ROOT]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [MEDIA_ROOT]
 
