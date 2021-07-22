@@ -89,3 +89,10 @@ In order to load the data from a file to a database, you can do:
 ```
 python3 manage.py loaddata filename.json.gz
 ```
+
+## Docker compose file
+Included in this repo is a 'docker-compose' file.
+This helps setting up the app if you want to run it locally. If you want to run the application locally with Docker, you just need to do the following:
+1. Add a `secrets` folder where configuration files will be stored.
+1. Add a `.env` configuration file in the `secrets` folder with the Django configuration file (SECRET_KEY and DEBUG)
+1. Run `docker compose up --build` in the project root folder. Docker will download the corresponding images and (theoretically) will run everything properly.
